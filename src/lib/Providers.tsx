@@ -1,12 +1,12 @@
 "use client";
 import { store } from "@/redux/store";
-import ThemeRegistry from "@/theme/ThemeRegistry";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Provider } from "react-redux";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      <ThemeRegistry>{children}</ThemeRegistry>
+      <AntdRegistry>{children}</AntdRegistry>
     </Provider>
   );
 };

@@ -1,14 +1,7 @@
-import { Button } from "@mui/material";
 import React from "react";
 
 const Footer = () => {
-  return (
-    <div>
-      <Button color="primary" className="text-">
-        this is footer page
-      </Button>
-    </div>
-  );
+  return <div>this is footer page</div>;
 };
 
 export default Footer;
