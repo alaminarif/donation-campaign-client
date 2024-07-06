@@ -5,10 +5,17 @@ const HeroSection = () => {
     <div
       style={{
         minHeight: "calc(100vh - 70px )",
-        backgroundColor: "#ddd",
+        // backgroundColor: "#ddd",
       }}
     >
-      this is hero section
+      <p
+        style={{
+          color: "#000",
+        }}
+      >
+        {" "}
+        this is hero section
+      </p>
     </div>
   );
 };

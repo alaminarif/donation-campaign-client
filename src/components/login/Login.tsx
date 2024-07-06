@@ -19,8 +19,8 @@ const LoginPage = () => {
   const router = useRouter();
 
   const defaultValues = {
-    email: "Kiera.Kiehn78@yahoo.com",
-    password: "1122",
+    email: "arifurr231@gmail.com",
+    password: "super_admin",
   };
   const onSubmit: SubmitHandler<TFormValues> = async (data: any) => {
     //
