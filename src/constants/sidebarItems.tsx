@@ -29,12 +29,27 @@ export const sidebarItems = (role: string) => {
     },
   ];
 
+  const superAdminSidebarItems: MenuProps["items"] = [
+    ...defaultSidebarItems,
+    ...commonAdminSidebarItems,
+    {
+      label: "User Management",
+      key: "user-management",
+      children: [
+        {
+          label: <Link href={`${role}/admin/create`}>Create Admin</Link>,
+          key: `${role}/profile`,
+        },
+      ],
+    },
+  ];
+
   const adminSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
     ...commonAdminSidebarItems,
     {
-      label: "Manage test",
-      key: "manage-test",
+      label: "User Management",
+      key: "user-management",
       children: [
         {
           label: <Link href={`${role}/profile`}>Account Profile</Link>,
@@ -59,6 +74,7 @@ export const sidebarItems = (role: string) => {
   ];
   if (role === USER_ROLE.USER) return userSidebarItems;
   else if (role === USER_ROLE.ADMIN) return adminSidebarItems;
+  else if (role === USER_ROLE.SUPER_ADMIN) return superAdminSidebarItems;
   else {
     return defaultSidebarItems;
   }

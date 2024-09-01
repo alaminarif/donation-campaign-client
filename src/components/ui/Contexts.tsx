@@ -5,7 +5,7 @@ import Header from "./Header";
 const { Content } = Layout;
 
 const Contexts = ({ children }: { children: React.ReactNode }) => {
-  const base = "admin";
+  const base = "super_admin";
   return (
     <Content
       style={{
@@ -17,11 +17,11 @@ const Contexts = ({ children }: { children: React.ReactNode }) => {
         items={[
           {
             label: `${base}`,
-            link: `${base}`,
+            link: `/${base}`,
           },
           {
             label: `admin`,
-            link: `${base}/test`,
+            link: `/${base}/super_admin`,
           },
         ]}
       />

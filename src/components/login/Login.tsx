@@ -6,7 +6,7 @@ import DCForm from "@/components/Form/DCForm";
 import FormInput from "@/components/Form/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import { useUserLoginMutation } from "@/redux/api/authApi";
-import { getUserInfo, isLoggedIn, storeUserInfo } from "@/services/auth.service";
+import { storeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
 type TFormValues = {
@@ -22,7 +22,7 @@ const LoginPage = () => {
     email: "arifurr231@gmail.com",
     password: "super_admin",
   };
-  const onSubmit: SubmitHandler<TFormValues> = async (data: any) => {
+  const onSubmit: SubmitHandler<TFormValues> = async (data) => {
     //
 
     try {
