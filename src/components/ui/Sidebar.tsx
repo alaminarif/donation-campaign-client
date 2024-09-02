@@ -14,7 +14,6 @@ const Sidebar = () => {
   // const role = USER_ROLE.ADMIN;
 
   const { role } = getUserInfo() as any;
-  console.log(role);
 
   return (
     <Sider

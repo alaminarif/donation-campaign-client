@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+
   const userLoggedIn = isLoggedIn();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -21,6 +22,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   if (!isLoading) {
     return <p>loading</p>;
   }
+
   return (
     <Layout hasSider>
       <Sidebar />

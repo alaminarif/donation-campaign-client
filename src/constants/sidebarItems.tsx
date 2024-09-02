@@ -37,8 +37,8 @@ export const sidebarItems = (role: string) => {
       key: "user-management",
       children: [
         {
-          label: <Link href={`${role}/admin/create`}>Create Admin</Link>,
-          key: `${role}/profile`,
+          label: <Link href={`${role}/create`}>Create Admin</Link>,
+          key: `${role}/`,
         },
       ],
     },

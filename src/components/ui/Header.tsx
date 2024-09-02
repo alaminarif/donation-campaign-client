@@ -5,12 +5,14 @@ import { UserOutlined } from "@ant-design/icons";
 const { Header: AntHeader } = Layout;
 
 import type { MenuProps } from "antd";
-import { removeUserInfo } from "@/services/auth.service";
+import { getUserInfo, removeUserInfo } from "@/services/auth.service";
+import { getFromLocalStorage } from "@/utils/local-storage";
+import Link from "next/link";
 
 const Header = () => {
   const router = useRouter();
+  const { role } = getUserInfo() as any;
   const logOut = () => {
-    removeUserInfo(authKey);
     router.push("/login");
   };
 
@@ -37,6 +39,7 @@ const Header = () => {
           height: "100%",
         }}
       >
+        <p style={{ marginRight: "10px" }}>{role}</p>
         <Dropdown menu={{ items }}>
           <Space wrap size={16}>
             <Avatar size="small" icon={<UserOutlined />} />

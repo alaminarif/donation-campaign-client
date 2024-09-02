@@ -1,6 +1,6 @@
 "use client";
 import { authKey } from "@/constants/storageKey";
-import { isLoggedIn, removeUserInfo } from "@/services/auth.service";
+import { getUserInfo, isLoggedIn, removeUserInfo } from "@/services/auth.service";
 import { Avatar, Button, Col, Dropdown, Layout, Menu, Row, Space } from "antd";
 const { Header: AntHeader, Content } = Layout;
 import type { MenuProps } from "antd";
@@ -44,7 +44,7 @@ const Navbar = () => {
           LogOut
         </Button>
       ) : (
-        "login"
+        <Link href={"/login"}>Login</Link>
       ),
     },
   ];
