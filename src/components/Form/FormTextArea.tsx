@@ -6,7 +6,7 @@ type TTextAreaProps = {
   label?: string;
   rows?: number;
   value?: string;
-  placeholder: string;
+  placeholder?: string;
 };
 const FormTextArea = ({ name, label, rows, value, placeholder }: TTextAreaProps) => {
   const { control } = useFormContext();

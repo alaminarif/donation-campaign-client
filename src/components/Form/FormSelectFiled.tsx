@@ -1,12 +1,13 @@
 "use client";
 
-import { Input, Select } from "antd";
+import { Select } from "antd";
+import { useFormContext, Controller } from "react-hook-form";
 
 type TSelectOptions = {
   label: string;
   value: string;
 };
-import { useFormContext, Controller } from "react-hook-form";
+
 type TSelectFieldProps = {
   options: TSelectOptions[];
   name: string;
@@ -14,7 +15,7 @@ type TSelectFieldProps = {
   value?: string | string[] | undefined;
   placeholder?: string;
   label?: string;
-  defaultValue: TSelectOptions;
+  defaultValue?: TSelectOptions;
 };
 
 const FormSelectFiled = ({ options, name, size, value, placeholder, label, defaultValue }: TSelectFieldProps) => {
