@@ -8,6 +8,8 @@ import FormTextArea from "@/components/Form/FormTextArea";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import UploadImage from "@/components/ui/UploadImage";
 import { bloodGroupOptions, genderOptions } from "@/constants/global";
+import { adminSchema } from "@/schemas/admin";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row } from "antd";
 
 const CreateAdminPage = () => {
@@ -35,7 +37,7 @@ const CreateAdminPage = () => {
 
       <h1>Create Admin</h1>
       <div>
-        <DCForm submitHandler={onSubmit}>
+        <DCForm submitHandler={onSubmit} resolver={yupResolver(adminSchema)}>
           <div
             style={{
               border: "1px solid #000",
