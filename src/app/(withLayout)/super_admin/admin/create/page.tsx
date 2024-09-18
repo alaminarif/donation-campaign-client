@@ -72,7 +72,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="admin.name.lastNames" size="large" label="Last Name" />
+                <FormInput type="text" name="admin.name.lastName" size="large" label="Last Name" />
               </Col>
 
               <Col
@@ -100,7 +100,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <UploadImage />
+                <UploadImage name="file" />
               </Col>
             </Row>
 

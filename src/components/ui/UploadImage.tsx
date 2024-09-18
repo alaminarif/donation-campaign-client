@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Flex, message, Upload } from "antd";
 import type { GetProp, UploadProps } from "antd";
+import Image from "next/image";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -22,8 +23,11 @@ const beforeUpload = (file: FileType) => {
   }
   return isJpgOrPng && isLt2M;
 };
+type ImageUploadProps = {
+  name: string;
+};
 
-const UploadImage = () => {
+const UploadImage = ({ name }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
@@ -51,15 +55,15 @@ const UploadImage = () => {
   return (
     <Flex gap="middle" wrap>
       <Upload
-        name="avatar"
+        name={name}
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        action="/api/file"
         beforeUpload={beforeUpload}
         onChange={handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: "100%" }} /> : uploadButton}
+        {imageUrl ? <Image src={imageUrl} alt="avatar" style={{ width: "100%" }} width={100} height={100} /> : uploadButton}
       </Upload>
     </Flex>
   );

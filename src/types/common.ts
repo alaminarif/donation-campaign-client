@@ -1,7 +1,7 @@
 export interface IMeta {
   limit: number;
   page: number;
-  size: number;
+  total: number;
 }
 
 export type ResponseSuccessType = {
@@ -9,13 +9,34 @@ export type ResponseSuccessType = {
   meta?: IMeta;
 };
 
-export type TErrorResponse = {
+export type TGenericErrorResponse = {
   statusCode: number;
   message: string;
-  errorMeassages: TErrorMessage;
+  errorMessages: TGenericErrorMessage[];
 };
 
-export type TErrorMessage = {
+export type TGenericErrorMessage = {
   path: string | number;
   message: string;
 };
+
+export interface Name {
+  firstName: string;
+  lastName: string;
+}
+
+export interface IAdmin {
+  id: string;
+  name: Name;
+  gender: string;
+  managementDepartment: string;
+  email: string;
+  contactNo: string;
+  dateOfBirth: string;
+  bloodGroup: string;
+  designation: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

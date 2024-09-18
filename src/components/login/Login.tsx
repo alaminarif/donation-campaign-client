@@ -1,5 +1,5 @@
 "use client";
-import { Button, Col, Row } from "antd";
+import { Button, Col, message, Row } from "antd";
 import Image from "next/image";
 import loginImage from "@/assets/login-pana.png";
 import DCForm from "@/components/Form/DCForm";
@@ -28,10 +28,9 @@ const LoginPage = () => {
     try {
       const res = await userLogin({ ...data }).unwrap();
 
-      console.log(res);
-
       if (res?.accessToken) {
         router.push("/profile");
+        message.success("User Logged in successfully");
       }
       storeUserInfo({ accessToken: res?.accessToken });
       console.log(storeUserInfo);
