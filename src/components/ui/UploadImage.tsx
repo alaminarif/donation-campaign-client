@@ -3,6 +3,7 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Flex, message, Upload } from "antd";
 import type { GetProp, UploadProps } from "antd";
 import Image from "next/image";
+import { useFormContext } from "react-hook-form";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -30,6 +31,7 @@ type ImageUploadProps = {
 const UploadImage = ({ name }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const { setValue } = useFormContext();
 
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
@@ -38,6 +40,7 @@ const UploadImage = ({ name }: ImageUploadProps) => {
     }
     if (info.file.status === "done") {
       // Get this url from response in real world.
+      setValue(name, info.file.originFileObj);
       getBase64(info.file.originFileObj as FileType, (url) => {
         setLoading(false);
         setImageUrl(url);
