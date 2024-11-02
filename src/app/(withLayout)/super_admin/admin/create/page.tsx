@@ -191,3 +191,14 @@ const CreateAdminPage = () => {
 };
 
 export default CreateAdminPage;
+
+//  const uploadImage = async (file) => {
+//    setLoading(true);
+//    const response = await fetch("https://api.cloudinary.com/v1_1/dfmdacf6w/image/upload", {
+//      method: "POST",
+//      body: file,
+//    });
+//    const data = await response.json();
+
+//    return data;
+//  };
