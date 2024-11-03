@@ -5,8 +5,7 @@ import { UserOutlined } from "@ant-design/icons";
 const { Header: AntHeader } = Layout;
 
 import type { MenuProps } from "antd";
-import { getUserInfo, removeUserInfo } from "@/services/auth.service";
-import { getFromLocalStorage } from "@/utils/local-storage";
+import { getUserInfo } from "@/services/auth.service";
 import Link from "next/link";
 
 const Header = () => {
@@ -19,6 +18,10 @@ const Header = () => {
   const items: MenuProps["items"] = [
     {
       key: 0,
+      label: <Link href={"/profile"}>Profile</Link>,
+    },
+    {
+      key: 1,
       label: (
         <Button onClick={logOut} type="text" danger>
           LogOut

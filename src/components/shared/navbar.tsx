@@ -40,9 +40,12 @@ const Navbar = () => {
     {
       key: 0,
       label: LoggedIn ? (
-        <Button type="text" onClick={logOut} danger>
-          LogOut
-        </Button>
+        <>
+          <Link href={"/profile"}>Profile</Link> <br />
+          <Button type="text" onClick={logOut} danger>
+            LogOut
+          </Button>
+        </>
       ) : (
         <Link href={"/login"}>Login</Link>
       ),

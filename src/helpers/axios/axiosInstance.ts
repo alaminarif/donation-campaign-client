@@ -1,5 +1,5 @@
 import { authKey } from "@/constants/storageKey";
-import { ResponseSuccessType, TErrorResponse } from "@/types";
+import { ResponseSuccessType } from "@/types";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
