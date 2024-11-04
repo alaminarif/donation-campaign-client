@@ -10,7 +10,7 @@ import UploadImage from "@/components/ui/UploadImage";
 import { bloodGroupOptions, genderOptions } from "@/constants/global";
 import { adminSchema } from "@/schemas/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, message, Row } from "antd";
+import { Button, Col, message, Row, Space } from "antd";
 
 const CreateAdminPage = () => {
   const imag_hosting = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`;
@@ -48,11 +48,15 @@ const CreateAdminPage = () => {
       />
 
       <h1>Create Admin</h1>
-      <div>
+      <div
+        style={{
+          margin: "10px 30px",
+        }}
+      >
         <DCForm submitHandler={onSubmit} resolver={yupResolver(adminSchema)}>
           <div
             style={{
-              border: "1px solid #000",
+              border: "1px solid #d9d9d9",
               borderRadius: "15px",
               padding: "15px",
               marginBottom: "10px",
@@ -145,15 +149,6 @@ const CreateAdminPage = () => {
                 <FormInput type="text" name="admin.contactNo" size="large" label="Contact No" />
               </Col>
 
-              <Col
-                className="gutter-row"
-                span={8}
-                style={{
-                  marginBottom: "10px",
-                }}
-              >
-                <FormInput type="text" name="admin.designation" size="large" label="designation" />
-              </Col>
               <Col
                 className="gutter-row"
                 span={8}

@@ -10,7 +10,7 @@ export type ResponseSuccessType = {
 };
 
 export type TGenericErrorResponse = {
-  statusCode: number;
+  statusCode: string;
   message: string;
   errorMessages: TGenericErrorMessage[];
 };
