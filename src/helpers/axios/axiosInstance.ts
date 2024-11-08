@@ -1,4 +1,4 @@
-import { authKey } from "@/constants/storageKey";
+import { authKey } from "@/components/shared/constants/storageKey";
 import { ResponseSuccessType, TGenericErrorResponse } from "@/types";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import axios from "axios";

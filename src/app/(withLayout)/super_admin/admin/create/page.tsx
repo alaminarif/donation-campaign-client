@@ -7,7 +7,7 @@ import FormTextArea from "@/components/Form/FormTextArea";
 
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import UploadImage from "@/components/ui/UploadImage";
-import { bloodGroupOptions, genderOptions } from "@/constants/global";
+import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/global";
 import { adminSchema } from "@/schemas/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, message, Row, Space } from "antd";

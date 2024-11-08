@@ -3,7 +3,7 @@ import { Layout, Menu } from "antd";
 import { useState } from "react";
 const { Sider } = Layout;
 import logo from "@/assets/Logo.png";
-import { sidebarItems } from "@/constants/sidebarItems";
+import { sidebarItems } from "@/components/shared/constants/sidebarItems";
 import { getUserInfo } from "@/services/auth.service";
 import Image from "next/image";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 "use client";
-import { authKey } from "@/constants/storageKey";
+import { authKey } from "@/components/shared/constants/storageKey";
 import { getUserInfo, isLoggedIn, removeUserInfo } from "@/services/auth.service";
 import { Avatar, Button, Col, Dropdown, Layout, Menu, Row, Space } from "antd";
 const { Header: AntHeader, Content } = Layout;
