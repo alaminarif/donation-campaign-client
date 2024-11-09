@@ -1,4 +1,4 @@
-import { IAdmin, IMeta } from "@/types";
+import { IAdmin, IMeta, TResponseRedux } from "@/types";
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tag-types";
 
@@ -17,17 +17,17 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     getAllAdmins: build.query({
-      query: (arg: Record<string, any>) => {
+      query: (arg) => {
         return {
           url: ADMIN_URL,
           method: "GET",
           params: arg,
         };
       },
-      transformResponse: (response: IAdmin[], meta: IMeta) => {
+      transformResponse: (response: TResponseRedux<any>) => {
         return {
-          admins: response,
-          meta,
+          data: response.data,
+          meta: response.meta,
         };
       },
       providesTags: [tagTypes.admin],
