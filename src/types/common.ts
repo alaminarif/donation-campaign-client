@@ -4,6 +4,7 @@ export interface IMeta {
   limit: number;
   page: number;
   total: number;
+  totalPage: number;
 }
 export type TError = {
   data: {
@@ -57,7 +58,6 @@ export interface Name {
 }
 
 export interface IAdmin {
-  id: string;
   name: Name;
   gender: string;
   email: string;

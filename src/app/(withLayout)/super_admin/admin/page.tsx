@@ -3,33 +3,46 @@ import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import DCTable from "@/components/ui/DCTable";
 import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
+import { TQueryParam } from "@/types";
 import { Button } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Adminpage = () => {
-  const query: Record<string, any> = {};
+  // const query: Record<string, any> = {};
 
-  const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
-  const [sortBy, setSortBy] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
-  const [adminId, setAdminId] = useState<string>("");
+  // const [page, setPage] = useState<number>(1);
+  // const [size, setSize] = useState<number>(10);
+  // const [sortBy, setSortBy] = useState<string>("");
+  // const [sortOrder, setSortOrder] = useState<string>("");
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const [open, setOpen] = useState<boolean>(false);
+  // const [adminId, setAdminId] = useState<string>("");
 
-  query["limit"] = size;
-  query["page"] = page;
-  query["sortBy"] = sortBy;
-  query["sortOrder"] = sortOrder;
-  const { data, isLoading } = useGetAllAdminsQuery(undefined);
+  // query["limit"] = size;
+  // query["page"] = page;
+  // query["sortBy"] = sortBy;
+  // query["sortOrder"] = sortOrder;
+  const [params, setParams] = useState<TQueryParam[]>([]);
+  const [page, setPage] = useState(1);
+  const {
+    data: adminData,
+    isLoading,
+    isFetching,
+  } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
 
-  const admins = data;
-  const meta = data?.meta;
+  // const { data, isLoading } = useGetAllAdminsQuery({ ...query });
+
+  //ts-ignore
+  const admins = adminData?.data;
+  const meta = adminData?.meta;
+
+  console.log({ isLoading, isFetching });
   if (isLoading) {
     return <p>loading...</p>;
   }
-  console.log(data);
+  console.log(admins);
+  console.log(meta);
 
   const columns = [
     {
@@ -67,26 +80,28 @@ const Adminpage = () => {
     },
   ];
 
-  // const tableData = [
-  //   {
-  //     key: "1",
-  //     name: "Arfiur Rahman",
-  //     age: 20,
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "Rakib ",
-  //     age: 22,
-  //   },
-  // ];
+  const tableData = [
+    {
+      key: "1",
+      name: "Arfiur Rahman",
+      age: 20,
+    },
+    {
+      key: "2",
+      name: "Rakib ",
+      age: 22,
+    },
+  ];
+
+  console.log(tableData);
   const onPaginationChange = (page: number, pageSize: number) => {
     console.log("Page: ", page, "PageSize:", pageSize);
   };
 
   const onTableChange = (pagination: any, filter: any, sorter: any) => {
     const { order, field } = sorter;
-    setSortBy(field as string);
-    setSortOrder(order === "ascend" ? "asc" : "desc");
+    // setSortBy(field as string);
+    // setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
   return (
@@ -109,8 +124,8 @@ const Adminpage = () => {
         loading={false}
         columns={columns}
         dataSource={admins}
-        pageSize={size}
-        totalPages={meta?.total}
+        pageSize={3}
+        totalPages={2}
         showSizeChanger={true}
         onPaginationChange={onPaginationChange}
         onTableChange={onTableChange}

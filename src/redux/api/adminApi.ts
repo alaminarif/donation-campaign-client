@@ -1,4 +1,4 @@
-import { IAdmin, IMeta, TResponseRedux } from "@/types";
+import { IAdmin, IMeta, TQueryParam, TResponseRedux } from "@/types";
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tag-types";
 
@@ -17,17 +17,23 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     getAllAdmins: build.query({
-      query: (arg) => {
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: TQueryParam) => {
+            params.append(item.name, item.value as string);
+          });
+        }
         return {
           url: ADMIN_URL,
           method: "GET",
-          params: arg,
         };
       },
-      transformResponse: (response: TResponseRedux<any>) => {
+      transformResponse: (response, meta) => {
+        console.log("inside redux", meta);
         return {
-          data: response.data,
-          meta: response.meta,
+          data: response,
+          meta,
         };
       },
       providesTags: [tagTypes.admin],
