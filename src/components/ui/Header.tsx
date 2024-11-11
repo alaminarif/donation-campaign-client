@@ -1,5 +1,4 @@
-import { authKey } from "@/components/shared/constants/storageKey";
-import { Avatar, Button, Col, Dropdown, Layout, Row, Space } from "antd";
+import { Avatar, Button, Dropdown, Layout, Row, Space } from "antd";
 import { useRouter } from "next/navigation";
 import { UserOutlined } from "@ant-design/icons";
 const { Header: AntHeader } = Layout;

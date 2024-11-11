@@ -1,10 +1,12 @@
 "use client";
+
+import { DeleteOutlined, EditOutlined, EyeOutlined, ReloadOutlined } from "@ant-design/icons";
 import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import DCTable from "@/components/ui/DCTable";
 import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
 import { TQueryParam } from "@/types";
-import { Button } from "antd";
+import { Button, Input, TableColumnsType } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -32,33 +34,31 @@ const Adminpage = () => {
   } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
 
   // const { data, isLoading } = useGetAllAdminsQuery({ ...query });
-
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
   //ts-ignore
   const admins = adminData?.data;
   const meta = adminData?.meta;
 
-  console.log({ isLoading, isFetching });
-  if (isLoading) {
-    return <p>loading...</p>;
-  }
+  // if (isLoading) {
+  //   return <p>loading...</p>;
+  // }
   console.log(admins);
   console.log(meta);
 
   const columns = [
     {
-      title: "Id",
-      dataIndex: "name",
-      key: "name",
+      title: "Name",
+      dataIndex: "name.lastName",
     },
     {
       title: "Name",
       dataIndex: "name",
-      key: "name",
     },
     {
       title: "Email",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "email",
     },
 
     {
@@ -72,28 +72,44 @@ const Adminpage = () => {
 
       render: function (data: any) {
         return (
-          <Button onClick={() => console.log(data)} type="primary" danger>
-            X
-          </Button>
+          <>
+            <Button onClick={() => console.log(data)} type="primary">
+              <EyeOutlined />
+            </Button>
+
+            <Button
+              style={{
+                margin: "0 5px",
+              }}
+              onClick={() => console.log(data)}
+              type="primary"
+            >
+              <EditOutlined />
+            </Button>
+
+            <Button onClick={() => console.log(data)} type="primary" danger>
+              <DeleteOutlined />
+            </Button>
+          </>
         );
       },
     },
   ];
 
-  const tableData = [
-    {
-      key: "1",
-      name: "Arfiur Rahman",
-      age: 20,
-    },
-    {
-      key: "2",
-      name: "Rakib ",
-      age: 22,
-    },
-  ];
+  // const tableData = [
+  //   {
+  //     key: "1",
+  //     name: "Arfiur Rahman",
+  //     age: 20,
+  //   },
+  //   {
+  //     key: "2",
+  //     name: "Rakib ",
+  //     age: 22,
+  //   },
+  // ];
 
-  console.log(tableData);
+  // console.log(tableData);
   const onPaginationChange = (page: number, pageSize: number) => {
     console.log("Page: ", page, "PageSize:", pageSize);
   };
@@ -103,6 +119,12 @@ const Adminpage = () => {
     // setSortBy(field as string);
     // setSortOrder(order === "ascend" ? "asc" : "desc");
   };
+
+  // const resetFilters = () => {
+  //   setSortBy("");
+  //   setSortOrder("");
+  //   setSearchTerm("");
+  // };
 
   return (
     <div>
@@ -115,13 +137,31 @@ const Adminpage = () => {
         ]}
       />
       <Actionbar title="Admin List">
-        <Link href="/super_admin/admin/create">
-          <Button type="primary">Create Admin</Button>
-        </Link>
+        <Input
+          type="text"
+          size="large"
+          placeholder="Search..."
+          style={{ width: "20%" }}
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
+        />
+
+        <div>
+          <Link href="/super_admin/admin/create">
+            <Button type="primary">Create Admin</Button>
+          </Link>
+          {/* {(!!sortBy || !sortOrder || !!searchTearm) && (
+            <Button type="primary" onClick={resetFilters}>
+              {" "}
+              <ReloadOutlined />
+            </Button>
+          )} */}
+        </div>
       </Actionbar>
       <DCTable
         //
-        loading={false}
+        loading={isFetching}
         columns={columns}
         dataSource={admins}
         pageSize={3}
