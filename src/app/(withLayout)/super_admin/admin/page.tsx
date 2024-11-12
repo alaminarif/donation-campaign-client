@@ -5,10 +5,12 @@ import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import DCTable from "@/components/ui/DCTable";
 import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
-import { TQueryParam } from "@/types";
-import { Button, Input, TableColumnsType } from "antd";
+import { TAdmin, TQueryParam } from "@/types";
+import { Button, Input, Table, TableColumnsType, TableProps } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
+
+export type TTbaleData = Pick<TAdmin, "name" | "email">;
 
 const Adminpage = () => {
   // const query: Record<string, any> = {};
@@ -38,20 +40,19 @@ const Adminpage = () => {
     return <p>loading...</p>;
   }
   //ts-ignore
-  const admins = adminData?.data;
-  const meta = adminData?.meta;
+  // const admins = adminData?.data;
+  // const meta = adminData?.meta;
 
   // if (isLoading) {
   //   return <p>loading...</p>;
   // }
+  // console.log(meta);
+  const admins = Array.isArray(adminData?.data) ? adminData.data : [];
   console.log(admins);
-  console.log(meta);
+  const tableData = admins?.map(({ name, email }) => ({ name, email }));
+  console.log(tableData);
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name.lastName",
-    },
+  const columns: TableColumnsType<TTbaleData> = [
     {
       title: "Name",
       dataIndex: "name",
@@ -59,14 +60,14 @@ const Adminpage = () => {
     {
       title: "Email",
       dataIndex: "email",
+      filters: [
+        {
+          text: "email",
+          value: "admin@gmail.com",
+        },
+      ],
     },
 
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-      sorter: (a: any, b: any) => a.age - b.age,
-    },
     {
       title: "Action",
 
@@ -120,6 +121,10 @@ const Adminpage = () => {
     // setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
+  const onChange: TableProps<TTbaleData>["onChange"] = (pagination, filters, sorter, extra) => {
+    console.log(filters);
+  };
+
   // const resetFilters = () => {
   //   setSortBy("");
   //   setSortOrder("");
@@ -159,18 +164,21 @@ const Adminpage = () => {
           )} */}
         </div>
       </Actionbar>
-      <DCTable
+      {/* <DCTable
         //
         loading={isFetching}
         columns={columns}
-        dataSource={admins}
+        dataSource={tableData}
         pageSize={3}
         totalPages={2}
         showSizeChanger={true}
         onPaginationChange={onPaginationChange}
         onTableChange={onTableChange}
         showPagination={true}
-      />
+        onChange={onChange}
+      /> */}
+
+      <Table columns={columns} dataSource={tableData} onChange={onChange} />
     </div>
   );
 };

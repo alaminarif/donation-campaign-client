@@ -1,4 +1,4 @@
-import { IAdmin, IMeta, TQueryParam, TResponseRedux } from "@/types";
+import { TAdmin, TMeta, TQueryParam, TResponseRedux } from "@/types";
 import { baseApi } from "./baseApi";
 import { tagTypes } from "../tag-types";
 
@@ -29,8 +29,8 @@ export const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      transformResponse: (response, meta) => {
-        console.log("inside redux", meta);
+      transformResponse: (response: TResponseRedux<TAdmin[]>, meta: TMeta) => {
+        // console.log("inside redux", response);
         return {
           data: response,
           meta,

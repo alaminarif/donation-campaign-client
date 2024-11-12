@@ -1,11 +1,5 @@
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
 
-export interface IMeta {
-  limit: number;
-  page: number;
-  total: number;
-  totalPage: number;
-}
 export type TError = {
   data: {
     message: string;
@@ -31,6 +25,7 @@ export type TResponse<T> = {
 };
 
 export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
+
 export type TQueryParam = {
   name: string;
   value: boolean | React.Key;
@@ -38,7 +33,7 @@ export type TQueryParam = {
 
 export type ResponseSuccessType = {
   data: any;
-  meta?: IMeta;
+  meta?: TMeta;
 };
 
 export type TGenericErrorResponse = {
@@ -51,22 +46,3 @@ export type TGenericErrorMessage = {
   path: string | number;
   message: string;
 };
-
-export interface Name {
-  firstName: string;
-  lastName: string;
-}
-
-export interface IAdmin {
-  name: Name;
-  gender: string;
-  email: string;
-  contactNo: string;
-  dateOfBirth: string;
-  bloodGroup: string;
-  designation: string;
-  address: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
