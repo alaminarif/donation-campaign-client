@@ -27,8 +27,10 @@ export const adminApi = baseApi.injectEndpoints({
         return {
           url: ADMIN_URL,
           method: "GET",
+          params: params,
         };
       },
+
       transformResponse: (response: TResponseRedux<TAdmin[]>, meta: TMeta) => {
         // console.log("inside redux", response);
         return {
