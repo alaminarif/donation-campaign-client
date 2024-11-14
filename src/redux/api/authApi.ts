@@ -11,7 +11,7 @@ const auhtApi = baseApi.injectEndpoints({
         method: "POST",
         data: loginData,
       }),
-      invalidatesTags: [tagTypes.user],
+      // invalidatesTags: [tagTypes.user],
     }),
   }),
 });

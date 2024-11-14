@@ -1,24 +1,61 @@
 "use client";
 
-import { DeleteOutlined, EditOutlined, EyeOutlined, ReloadOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
 import { TAdmin, TQueryParam } from "@/types";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Pagination, Table, TableColumnsType, TableProps } from "antd";
-import Link from "next/link";
-import React, { useState } from "react";
 
 export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBirth" | "bloogGroup" | "gender">;
 
 const Adminpage = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
+
+  // const query: Record<string, any> = {};
+  const [searchTerm, setSerchTerm] = useState<string>("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
+
+  // query["searchTerm"] = searchTerm;
+
+  // useEffect(() => {
+  //   // Whenever searchTerm changes, update params
+  //   const searchParams = [...params];
+  //   if (searchTerm) {
+  //     searchParams.push({ name: "searchTerm", value: searchTerm });
+  //   }
+  //   setParams(searchParams);
+  //   console.log(searchParams);
+  // }, [searchTerm]);
+
+  useEffect(() => {
+    // Set a timer to update debouncedSearchTerm after a delay
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 900); // 500 ms delay (adjust as needed)
+
+    // Clear the timer if the user types within the delay
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    // Start with all existing parameters except "searchTerm"
+    const updatedParams = params.filter((param) => param.name !== "searchTerm");
+    if (debouncedSearchTerm) {
+      // Add the new searchTerm only once
+      updatedParams.push({ name: "searchTerm", value: debouncedSearchTerm });
+    }
+    setParams(updatedParams);
+  }, [debouncedSearchTerm]);
+
   const {
     data: adminData,
     isLoading,
     isFetching,
-  } = useGetAllAdminsQuery([{ name: "limit", value: 3 }, { name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
+  } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -27,7 +64,8 @@ const Adminpage = () => {
   const admins = Array.isArray(adminData?.data) ? adminData.data : [];
   const meta = adminData?.meta;
 
-  const tableData = admins?.map(({ name, email, contactNo, dateOfBirth, gender, bloogGroup }) => ({
+  const tableData = admins?.map(({ _id, name, email, contactNo, dateOfBirth, gender, bloogGroup }) => ({
+    key: _id,
     name,
     email,
     contactNo,
@@ -117,6 +155,8 @@ const Adminpage = () => {
       console.log(queryParams);
       setParams(queryParams);
     }
+
+    console.log(extra.action);
   };
 
   return (
@@ -136,7 +176,7 @@ const Adminpage = () => {
           placeholder="Search..."
           style={{ width: "20%" }}
           onChange={(e) => {
-            console.log(e.target.value);
+            setSerchTerm(e.target.value);
           }}
         />
 
