@@ -11,22 +11,39 @@ import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/
 import { adminSchema } from "@/schemas/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, message, Row, Space } from "antd";
+import { useState } from "react";
+import { useAddAdminMutation } from "@/redux/api/adminApi";
 
 const CreateAdminPage = () => {
-  const imag_hosting = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`;
+  const [imgFile, setImgFile] = useState(null);
+  // const imag_hosting = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`;
 
-  const onSubmit = async (values: any) => {
-    const obj = { ...values };
-    const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
-    const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+  const [addAdminData] = useAddAdminMutation();
+
+  const uploadImage = async (file: any) => {
+    // setLoading(true);
+    const response = await fetch("https://api.cloudinary.com/v1_1/dqk1og6f4/image/upload", {
+      method: "POST",
+      body: file,
+    });
+    const data = await response.json();
+
+    return data;
+  };
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    // const data = JSON.stringify(obj);
+    const file = new FormData();
+    file.append("file", imgFile);
+    file.append("upload_preset", "donation-campign");
+    const pictureInfo = await uploadImage(file);
+    if (pictureInfo?.secure_url) {
+    }
     message.loading("Creating...");
-    console.log(obj);
+    console.log("obj");
     try {
-      console.log(data);
+      console.log("data");
     } catch (error: any) {
       console.error(error.message);
     }

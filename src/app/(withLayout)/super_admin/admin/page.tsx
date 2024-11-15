@@ -14,22 +14,8 @@ export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBi
 const Adminpage = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
   const [page, setPage] = useState(1);
-
-  // const query: Record<string, any> = {};
   const [searchTerm, setSerchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-
-  // query["searchTerm"] = searchTerm;
-
-  // useEffect(() => {
-  //   // Whenever searchTerm changes, update params
-  //   const searchParams = [...params];
-  //   if (searchTerm) {
-  //     searchParams.push({ name: "searchTerm", value: searchTerm });
-  //   }
-  //   setParams(searchParams);
-  //   console.log(searchParams);
-  // }, [searchTerm]);
 
   useEffect(() => {
     // Set a timer to update debouncedSearchTerm after a delay
@@ -160,7 +146,11 @@ const Adminpage = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: "0 15px",
+      }}
+    >
       <DCBreadcrumb
         items={[
           {
