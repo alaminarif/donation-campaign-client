@@ -18,7 +18,7 @@ const CreateAdminPage = () => {
   const [imgFile, setImgFile] = useState(null);
   // const imag_hosting = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`;
 
-  const [addAdminData] = useAddAdminMutation();
+  const [addAdminData, { data, error }] = useAddAdminMutation();
 
   const uploadImage = async (file: any) => {
     // setLoading(true);
@@ -31,24 +31,31 @@ const CreateAdminPage = () => {
     return data;
   };
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
-    // const data = JSON.stringify(obj);
-    const file = new FormData();
-    file.append("file", imgFile);
-    file.append("upload_preset", "donation-campign");
-    const pictureInfo = await uploadImage(file);
-    if (pictureInfo?.secure_url) {
-    }
-    message.loading("Creating...");
-    console.log("obj");
-    try {
-      console.log("data");
-    } catch (error: any) {
-      console.error(error.message);
-    }
+  const onSubmit = async (data: any) => {
+    // e.preventDefault();
+    const formData = new FormData();
+    const ParseData = JSON.stringify(data);
+    // file.append("file", imgFile);
+    // file.append("upload_preset", "donation-campign");
+    formData.append("data", ParseData);
+
+    // // console.log(Object.fromEntries(file));
+    // const pictureInfo = await uploadImage(file);
+    // if (pictureInfo?.secure_url) {
+    // }
+    // message.loading("Creating...");
+    // console.log("obj");
+    // try {
+    //   console.log("data");
+    // } catch (error: any) {
+    //   console.error(error.message);
+    // }
+    addAdminData(formData);
+
+    console.log(data);
   };
 
+  // resolver={yupResolver(adminSchema)}
   return (
     <div>
       <DCBreadcrumb
@@ -70,7 +77,7 @@ const CreateAdminPage = () => {
           margin: "10px 30px",
         }}
       >
-        <DCForm submitHandler={onSubmit} resolver={yupResolver(adminSchema)}>
+        <DCForm submitHandler={onSubmit}>
           <div
             style={{
               border: "1px solid #d9d9d9",
