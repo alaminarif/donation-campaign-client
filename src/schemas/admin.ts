@@ -10,7 +10,7 @@ export const adminSchema = yup.object().shape({
     }),
     email: yup.string().email().required("Email is required"),
     contactNo: yup.string().required("Contact no is required"),
-    gender: yup.string().required("Contact no is required"),
-    address: yup.string().required("Contact no is required"),
+    gender: yup.string().required("gender no is required"),
+    address: yup.string().required("address no is required"),
   }),
 });
