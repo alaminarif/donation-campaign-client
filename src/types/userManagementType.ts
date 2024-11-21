@@ -10,7 +10,7 @@ export type TAdmin = {
   name: TName;
   gender: string;
   contactNo: string;
-  bloogGroup?: string;
+  bloodGroup?: string;
   dateOfBirth?: string;
   profileImg?: string;
   address: string;

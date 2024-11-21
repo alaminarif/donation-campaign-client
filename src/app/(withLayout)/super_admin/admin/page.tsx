@@ -9,7 +9,7 @@ import { TAdmin, TQueryParam } from "@/types";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Pagination, Table, TableColumnsType, TableProps } from "antd";
 
-export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBirth" | "bloogGroup" | "gender">;
+export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
 
 const Adminpage = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
@@ -50,14 +50,14 @@ const Adminpage = () => {
   const admins = Array.isArray(adminData?.data) ? adminData.data : [];
   const meta = adminData?.meta;
 
-  const tableData = admins?.map(({ _id, name, email, contactNo, dateOfBirth, gender, bloogGroup }) => ({
+  const tableData = admins?.map(({ _id, name, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
     key: _id,
     name,
     email,
     contactNo,
     dateOfBirth,
     gender,
-    bloogGroup,
+    bloodGroup,
   }));
 
   const columns: TableColumnsType<TTbaleData> = [
@@ -86,7 +86,7 @@ const Adminpage = () => {
     },
     {
       title: "Blood Group",
-      dataIndex: "bloogGroup",
+      dataIndex: "bloodGroup",
     },
 
     {

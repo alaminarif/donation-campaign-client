@@ -1,6 +1,6 @@
 "use client";
 import { Form } from "antd";
-import { ReactElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 type TFormConfig = {
@@ -9,23 +9,26 @@ type TFormConfig = {
 };
 
 type TFormProps = {
-  children: ReactElement | ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
+  children: ReactNode;
 } & TFormConfig;
 
-const DCForm = ({ children, onSubmit, defaultValues, resolver }: TFormProps) => {
+const DCForm = ({ onSubmit, children, defaultValues, resolver }: TFormProps) => {
   const formConfig: TFormConfig = {};
 
-  if (!!defaultValues) formConfig["defaultValues"] = defaultValues;
-  if (!!resolver) formConfig["resolver"] = resolver;
+  if (resolver) {
+    formConfig["resolver"] = resolver;
+  }
+  if (defaultValues) {
+    formConfig["defaultValues"] = defaultValues;
+  }
+  const methods = useForm(formConfig);
 
-  const methods = useForm<TFormProps>(formConfig);
-  const { handleSubmit, reset } = methods;
-
-  const submit = (data: any) => {
+  const submit = (data: FieldValues) => {
     onSubmit(data);
-    reset();
+    methods.reset();
   };
+
   return (
     <FormProvider {...methods}>
       <Form layout="vertical" onFinish={methods.handleSubmit(submit)}>
@@ -34,5 +37,4 @@ const DCForm = ({ children, onSubmit, defaultValues, resolver }: TFormProps) => 
     </FormProvider>
   );
 };
-
 export default DCForm;

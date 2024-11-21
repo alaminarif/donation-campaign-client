@@ -17,7 +17,6 @@ import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 
 const CreateAdminPage = () => {
   const [imgFile, setImgFile] = useState(null);
-  // const imag_hosting = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGE_API}`;
 
   const [addAdmin, { data, error }] = useAddAdminMutation();
 
@@ -27,19 +26,10 @@ const CreateAdminPage = () => {
 
   console.log(data);
 
-  // const uploadImage = async (file: any) => {
-  //   // setLoading(true);
-  //   const response = await fetch("https://api.cloudinary.com/v1_1/dqk1og6f4/image/upload", {
-  //     method: "POST",
-  //     body: file,
-  //   });
-  //   const data = await response.json();
-  //   // console.log(response);
-
-  //   return data;
-  // };
-
   const uploadImage = async (file: any) => {
+    // if (!file) {
+    //   return null;
+    // }
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "donation-campign");
@@ -61,34 +51,85 @@ const CreateAdminPage = () => {
       console.log("Upload Success:", data);
       return data;
     } catch (error) {
-      console.error("Upload Error:", error.message);
+      console.error("Upload Error:", error);
       throw error;
     }
   };
 
+  // const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
+  //   //
+
+  //   try {
+  //     let pictureInfo = null;
+
+  //     // Only upload the image if it exists
+  //     if (imgFile) {
+  //       pictureInfo = await uploadImage(imgFile);
+  //     }
+
+  //     const adminData = {
+  //       password: formValues.password,
+  //       admin: {
+  //         name: {
+  //           firstName: formValues.firstName,
+  //           lastName: formValues.lastName,
+  //         },
+  //         gender: formValues.gender,
+  //         email: formValues.email,
+  //         contactNo: formValues.contactNo,
+  //         dateOfBirth: formValues.dateOfBirth,
+  //         bloodGroup: formValues.bloodGroup,
+  //         address: formValues.address,
+  //         profileImg: pictureInfo?.secure_url || null,
+  //       },
+  //     };
+  //     addAdmin(adminData);
+
+  //     console.log("admin data =>", adminData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
+    let pictureInfo = null;
+
+    if (imgFile) {
+      try {
+        pictureInfo = await uploadImage(imgFile);
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        message.error("Failed to upload image. Please try again.");
+        return;
+      }
+    }
+
     const adminData = {
       password: formValues.password,
-      admin: formValues,
+      admin: {
+        name: {
+          firstName: formValues.firstName,
+          lastName: formValues.lastName,
+        },
+        gender: formValues.gender,
+        email: formValues.email,
+        contactNo: formValues.contactNo,
+        dateOfBirth: formValues.dateOfBirth,
+        bloodGroup: formValues.bloodGroup,
+        address: formValues.address,
+        profileImg: pictureInfo?.secure_url || null,
+      },
     };
 
-    addAdmin(adminData);
+    try {
+      await addAdmin(adminData);
+      message.success("Admin created successfully!"); // Show success message
+    } catch (error) {
+      console.error("Error adding admin:", error);
+      message.error("Failed to create admin. Please try again."); // Show error message
+    }
 
-    console.log(adminData);
-
-    // try {
-    //   const pictureInfo = await uploadImage(imgFile);
-    //   console.log(pictureInfo);
-
-    //   if (pictureInfo?.secure_url) {
-    //     // await addAdmin({ profileImg: pictureInfo?.secure_url, adminData }).unwrap();
-    //     message.success("Admin created successfully!");
-    //   } else {
-    //     message.error("Failed to upload image.");
-    //   }
-    // } catch (error) {
-    //   message.error(error.message || "Something went wrong.");
-    // }
+    console.log("Admin data =>", adminData);
   };
 
   return (
@@ -112,7 +153,7 @@ const CreateAdminPage = () => {
           margin: "10px 30px",
         }}
       >
-        <DCForm onSubmit={onSubmit} resolver={yupResolver(adminSchema)}>
+        <DCForm onSubmit={onSubmit}>
           <div
             style={{
               border: "1px solid #d9d9d9",
@@ -137,7 +178,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="name.firstName" size="large" label="First Name" />
+                <FormInput type="text" name="firstName" size="large" label="First Name" />
               </Col>
 
               <Col
@@ -147,7 +188,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="name.lastName" size="large" label="Last Name" />
+                <FormInput type="text" name="lastName" size="large" label="Last Name" />
               </Col>
 
               <Col
@@ -255,14 +296,21 @@ const CreateAdminPage = () => {
 
 export default CreateAdminPage;
 
-// name: {
-//           firstName: formValues.name.firstName,
-//           lastName: formValues.name.lastName,
-//         },
-//         gender: formValues.gender,
-//         email: formValues.email,
-//         contactNo: formValues.contactNo,
-//         dateOfBirth: formValues.dateOfBirth,
-//         bloodGroup: formValues.bloodGroup,
-//         address: formValues.address,
-//       },
+//  resolver={yupResolver(adminSchema)}
+
+// const defaultAdminData = {
+//   password: "1234567", // Ensure password is present
+//   admin: {
+//     name: {
+//       firstName: "arif",
+//       lastName: "rahman",
+//     },
+//     gender: "female",
+//     email: "arifurr342@gmail.com",
+//     contactNo: "0176586258695",
+//     dateOfBirth: "2024-11-21",
+//     bloodGroup: "A+",
+//     address: "Barisahl, Bangladesh",
+//     // profileImg: pictureInfo?.secure_url,
+//   },
+// };

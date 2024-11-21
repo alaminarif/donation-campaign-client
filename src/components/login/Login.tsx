@@ -4,15 +4,15 @@ import Image from "next/image";
 import loginImage from "@/assets/login-pana.png";
 import DCForm from "@/components/Form/DCForm";
 import FormInput from "@/components/Form/FormInput";
-import { SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { storeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
-type TFormValues = {
-  email: string;
-  password: string;
-};
+// type TFormValues = {
+//   email: string;
+//   password: string;
+// };
 // Kiera.Kiehn78@yahoo.com
 const LoginPage = () => {
   const [userLogin] = useUserLoginMutation();
@@ -22,7 +22,7 @@ const LoginPage = () => {
     email: "arifurr231@gmail.com",
     password: "super_admin",
   };
-  const onSubmit: SubmitHandler<TFormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //
 
     try {
@@ -58,7 +58,7 @@ const LoginPage = () => {
           First login your account
         </h1>
         <div>
-          <DCForm submitHandler={onSubmit} defaultValues={defaultValues}>
+          <DCForm onSubmit={onSubmit} defaultValues={defaultValues}>
             <div>
               <FormInput name="email" type="text" size="large" label="User Id" />
             </div>
