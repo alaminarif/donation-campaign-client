@@ -4,13 +4,11 @@ import FormDatePicker from "@/components/Form/FormDatePicker";
 import FormInput from "@/components/Form/FormInput";
 import FormSelectFiled from "@/components/Form/FormSelectFiled";
 import FormTextArea from "@/components/Form/FormTextArea";
-
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
-import UploadImage from "@/components/ui/UploadImage";
 import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/global";
 import { adminSchema } from "@/schemas/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Form, Input, message, Row, Space } from "antd";
+import { Button, Col, Form, Input, message, Row } from "antd";
 import { useState } from "react";
 import { useAddAdminMutation } from "@/redux/api/adminApi";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
@@ -24,12 +22,10 @@ const CreateAdminPage = () => {
     console.error("Error adding admin:", error);
   }
 
-  console.log(data);
-
   const uploadImage = async (file: any) => {
-    // if (!file) {
-    //   return null;
-    // }
+    if (!file) {
+      return null;
+    }
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "donation-campign");
@@ -58,6 +54,7 @@ const CreateAdminPage = () => {
 
   // const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
   //   //
+  //   console.log("click");
 
   //   try {
   //     let pictureInfo = null;
@@ -83,7 +80,7 @@ const CreateAdminPage = () => {
   //         profileImg: pictureInfo?.secure_url || null,
   //       },
   //     };
-  //     addAdmin(adminData);
+  //     // addAdmin(adminData);
 
   //     console.log("admin data =>", adminData);
   //   } catch (error) {
@@ -92,6 +89,7 @@ const CreateAdminPage = () => {
   // };
 
   const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
+    console.log("click");
     let pictureInfo = null;
 
     if (imgFile) {
@@ -117,19 +115,19 @@ const CreateAdminPage = () => {
         dateOfBirth: formValues.dateOfBirth,
         bloodGroup: formValues.bloodGroup,
         address: formValues.address,
-        profileImg: pictureInfo?.secure_url || null,
+        profileImg: pictureInfo ? pictureInfo.secure_url : null,
       },
     };
 
     try {
       await addAdmin(adminData);
-      message.success("Admin created successfully!"); // Show success message
+      message.success("Admin created successfully!");
+      console.log("Admin data =>", adminData);
+      console.log(adminData.admin.profileImg);
     } catch (error) {
       console.error("Error adding admin:", error);
-      message.error("Failed to create admin. Please try again."); // Show error message
+      message.error("Failed to create admin. Please try again.");
     }
-
-    console.log("Admin data =>", adminData);
   };
 
   return (

@@ -8,6 +8,7 @@ import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
 import { TAdmin, TQueryParam } from "@/types";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Pagination, Table, TableColumnsType, TableProps } from "antd";
+import Loading from "@/app/loading";
 
 export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
 
@@ -44,7 +45,7 @@ const Adminpage = () => {
   } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <Loading />;
   }
 
   const admins = Array.isArray(adminData?.data) ? adminData.data : [];

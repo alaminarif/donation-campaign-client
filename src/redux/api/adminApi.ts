@@ -11,7 +11,7 @@ export const adminApi = baseApi.injectEndpoints({
         url: "/users/create-admin",
         method: "POST",
         data,
-        contentType: "multipart/form-data",
+        contentType: "application/json",
       }),
       invalidatesTags: [tagTypes.admin],
     }),
