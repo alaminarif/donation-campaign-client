@@ -1,7 +1,7 @@
-import React from "react";
+"use client";
 
-const ResetPasswordPage = () => {
+const ChangePassword = () => {
   return <div>this is reset pasword page</div>;
 };
 
-export default ResetPasswordPage;
+export default ChangePassword;
