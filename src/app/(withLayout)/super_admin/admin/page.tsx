@@ -9,8 +9,9 @@ import { TAdmin, TQueryParam } from "@/types";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Input, Pagination, Table, TableColumnsType, TableProps } from "antd";
 import Loading from "@/app/loading";
+import dayjs from "dayjs";
 
-export type TTbaleData = Pick<TAdmin, "name" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
+export type TTbaleData = Pick<TAdmin, "fullName" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
 
 const Adminpage = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
@@ -19,17 +20,14 @@ const Adminpage = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
 
   useEffect(() => {
-    // Set a timer to update debouncedSearchTerm after a delay
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 900); // 500 ms delay (adjust as needed)
+    }, 900);
 
-    // Clear the timer if the user types within the delay
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
   useEffect(() => {
-    // Start with all existing parameters except "searchTerm"
     const updatedParams = params.filter((param) => param.name !== "searchTerm");
     if (debouncedSearchTerm) {
       // Add the new searchTerm only once
@@ -51,9 +49,9 @@ const Adminpage = () => {
   const admins = Array.isArray(adminData?.data) ? adminData.data : [];
   const meta = adminData?.meta;
 
-  const tableData = admins?.map(({ _id, name, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
+  const tableData = admins?.map(({ _id, fullName, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
     key: _id,
-    name,
+    fullName,
     email,
     contactNo,
     dateOfBirth,
@@ -64,7 +62,7 @@ const Adminpage = () => {
   const columns: TableColumnsType<TTbaleData> = [
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "fullName",
     },
     {
       title: "Email",
@@ -84,6 +82,9 @@ const Adminpage = () => {
     {
       title: "DateOfBirth",
       dataIndex: "dateOfBirth",
+      render: function (data: any) {
+        return data && dayjs(data).format("YYYY MMM D");
+      },
     },
     {
       title: "Blood Group",
@@ -115,15 +116,17 @@ const Adminpage = () => {
               <EyeOutlined />
             </Button>
 
-            <Button
-              style={{
-                margin: "0 5px",
-              }}
-              onClick={() => console.log(data)}
-              type="primary"
-            >
-              <EditOutlined />
-            </Button>
+            <Link href={`/super_admin/admin/edit/${data.email}`}>
+              <Button
+                style={{
+                  margin: "0 5px",
+                }}
+                onClick={() => console.log(data)}
+                type="primary"
+              >
+                <EditOutlined />
+              </Button>
+            </Link>
 
             <Button onClick={() => console.log(data)} type="primary" danger>
               <DeleteOutlined />
@@ -187,3 +190,9 @@ const Adminpage = () => {
 };
 
 export default Adminpage;
+
+function forDate() {
+  return dayjs("2018-01-13").format("YYY MMM D");
+}
+
+console.log(forDate());

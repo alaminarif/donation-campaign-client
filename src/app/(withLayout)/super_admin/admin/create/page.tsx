@@ -14,7 +14,7 @@ import { useAddAdminMutation } from "@/redux/api/adminApi";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 
 const CreateAdminPage = () => {
-  const [imgFile, setImgFile] = useState(null);
+  const [imgFile, setImgFile] = useState<Blob | null>(null);
 
   const [addAdmin, { data, error }] = useAddAdminMutation();
 
@@ -22,7 +22,7 @@ const CreateAdminPage = () => {
     console.error("Error adding admin:", error);
   }
 
-  const uploadImage = async (file: any) => {
+  const uploadImage = async (file: Blob) => {
     if (!file) {
       return null;
     }
@@ -216,7 +216,7 @@ const CreateAdminPage = () => {
                         type="file"
                         {...field}
                         onChange={(e) => {
-                          const file = e.target.files?.[0];
+                          const file = e.target.files?.[0] || null;
                           onChange(file); // For React Hook Form
                           setImgFile(file); // For uploading
                         }}

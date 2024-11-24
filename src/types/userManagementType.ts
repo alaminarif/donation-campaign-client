@@ -15,6 +15,7 @@ export type TAdmin = {
   profileImg?: string;
   address: string;
   isDeleted: boolean;
+  fullName: string;
   createdAt: string;
   updatedAt: string;
 };
