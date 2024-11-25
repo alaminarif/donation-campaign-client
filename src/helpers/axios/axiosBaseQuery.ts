@@ -32,8 +32,6 @@ export const axiosBaseQuery =
         },
         withCredentials: true,
       });
-
-      // console.log(result.url);
       console.log(result.data);
 
       return result;

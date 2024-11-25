@@ -116,12 +116,12 @@ const Adminpage = () => {
               <EyeOutlined />
             </Button>
 
-            <Link href={`/super_admin/admin/edit/${data.email}`}>
+            <Link href={`/super_admin/admin/edit/${data?.email}`}>
               <Button
                 style={{
                   margin: "0 5px",
                 }}
-                onClick={() => console.log(data)}
+                onClick={() => console.log(data.email)}
                 type="primary"
               >
                 <EditOutlined />
@@ -190,9 +190,3 @@ const Adminpage = () => {
 };
 
 export default Adminpage;
-
-function forDate() {
-  return dayjs("2018-01-13").format("YYY MMM D");
-}
-
-console.log(forDate());
