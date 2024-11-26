@@ -11,15 +11,49 @@ import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import FormDatePicker from "@/components/Form/FormDatePicker";
 import FormTextArea from "@/components/Form/FormTextArea";
+import { useGetSingleAdminQuery, useUpdateAdminMutation } from "@/redux/api/adminApi";
+import Loading from "@/app/loading";
 type TIdProps = {
   params: any;
 };
 
 const EditAdminPage = ({ params }: TIdProps) => {
-  const { id } = params;
-  console.log("params", params, id);
+  const { email, id } = params;
+  console.log("params", params, email);
 
   const [imgFile, setImgFile] = useState<Blob | null>(null);
+
+  const { data: adminData, isFetching, isLoading } = useGetSingleAdminQuery(params?.id);
+
+  const [updateAdmin, { data, error }] = useUpdateAdminMutation(id);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  console.log("updat amin data query =>");
+  console.log(data);
+
+  if (error) {
+    console.error("Error adding admin:", error);
+  }
+
+  const adminDefaultData = {
+    // password: formValues.password,
+    // admin: {
+    //   name: {
+    //     firstName: adminData.name.firstName || "",
+    //     lastName: adminData.name.lastName || "",
+    //   },
+    //   gender: adminData.gender || "",
+    //   email: adminData.email || "",
+    //   contactNo: adminData.contactNo || "",
+    //   dateOfBirth: adminData.dateOfBirth || "",
+    //   bloodGroup: adminData.bloodGroup || "",
+    //   address: adminData.address || "",
+    //   // profileImg: pictureInfo?.secure_url || null,
+    // },
+  };
 
   const uploadImage = async (file: Blob) => {
     if (!file) {
@@ -109,7 +143,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
       />
       <Actionbar title="Update Admin "></Actionbar>
 
-      <DCForm onSubmit={onSubmit}>
+      <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
         <div
           style={{
             border: "1px solid #d9d9d9",
