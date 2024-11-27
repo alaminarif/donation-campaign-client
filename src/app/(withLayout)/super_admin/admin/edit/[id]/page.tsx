@@ -18,42 +18,39 @@ type TIdProps = {
 };
 
 const EditAdminPage = ({ params }: TIdProps) => {
-  const { email, id } = params;
-  console.log("params", params, email);
+  const { id } = params;
+  // console.log("params", params, email);
 
   const [imgFile, setImgFile] = useState<Blob | null>(null);
 
-  const { data: adminData, isFetching, isLoading } = useGetSingleAdminQuery(params?.id);
+  const { data: adminData, isFetching, isLoading } = useGetSingleAdminQuery(id);
 
-  const [updateAdmin, { data, error }] = useUpdateAdminMutation(id);
+  const [updateAdmin, { data, error }] = useUpdateAdminMutation();
 
   if (isLoading) {
     return <Loading />;
   }
 
-  console.log("updat amin data query =>");
+  console.log("updat amin data query =>", adminData);
   console.log(data);
 
   if (error) {
-    console.error("Error adding admin:", error);
+    console.error("Error adding admin =>", error);
   }
 
   const adminDefaultData = {
-    // password: formValues.password,
-    // admin: {
-    //   name: {
-    //     firstName: adminData.name.firstName || "",
-    //     lastName: adminData.name.lastName || "",
-    //   },
-    //   gender: adminData.gender || "",
-    //   email: adminData.email || "",
-    //   contactNo: adminData.contactNo || "",
-    //   dateOfBirth: adminData.dateOfBirth || "",
-    //   bloodGroup: adminData.bloodGroup || "",
-    //   address: adminData.address || "",
-    //   // profileImg: pictureInfo?.secure_url || null,
-    // },
+    firstName: adminData[0].name.firstName || "",
+    lastName: adminData[0].name.lastName || "",
+    gender: adminData[0].gender || "",
+    email: adminData[0].email || "",
+    contactNo: adminData[0].contactNo || "",
+    dateOfBirth: adminData[0].dateOfBirth || "",
+    bloodGroup: adminData[0].bloodGroup || "",
+    address: adminData[0].address || "",
+    // profileImg: pictureInfo?.secure_url || null,
   };
+
+  // console.log(adminDefaultData);
 
   const uploadImage = async (file: Blob) => {
     if (!file) {
@@ -100,7 +97,6 @@ const EditAdminPage = ({ params }: TIdProps) => {
     }
 
     const adminData = {
-      password: formValues.password,
       admin: {
         name: {
           firstName: formValues.firstName,
@@ -112,15 +108,15 @@ const EditAdminPage = ({ params }: TIdProps) => {
         dateOfBirth: formValues.dateOfBirth,
         bloodGroup: formValues.bloodGroup,
         address: formValues.address,
-        profileImg: pictureInfo ? pictureInfo.secure_url : null,
+        profileImg: pictureInfo?.secure_url || "",
       },
     };
 
     try {
-      //  await addAdmin(adminData);
+      await updateAdmin({ id, body: adminData });
       message.success("Admin created successfully!");
-      console.log("Admin data =>", adminData);
-      console.log(adminData.admin.profileImg);
+      // console.log("Admin data =>", adminData);
+      // console.log(adminData.admin.profileImg);
     } catch (error) {
       console.error("Error adding admin:", error);
       message.error("Failed to create admin. Please try again.");
@@ -142,7 +138,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
         ]}
       />
       <Actionbar title="Update Admin "></Actionbar>
-
+      {/* defaultValues={adminDefaultData} */}
       <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
         <div
           style={{
@@ -179,16 +175,6 @@ const EditAdminPage = ({ params }: TIdProps) => {
               }}
             >
               <FormInput type="text" name="lastName" size="large" label="Last Name" />
-            </Col>
-
-            <Col
-              className="gutter-row"
-              span={8}
-              style={{
-                marginBottom: "10px",
-              }}
-            >
-              <FormInput type="password" name="password" size="large" label="Password" />
             </Col>
             <Col
               className="gutter-row"

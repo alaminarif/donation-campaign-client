@@ -12,7 +12,7 @@ export type TAdmin = {
   contactNo: string;
   bloodGroup?: string;
   dateOfBirth?: string;
-  profileImg?: string;
+  profileImg?: string | null;
   address: string;
   isDeleted: boolean;
   fullName: string;

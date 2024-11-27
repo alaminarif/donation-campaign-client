@@ -52,6 +52,19 @@ const CreateAdminPage = () => {
     }
   };
 
+  const adminDefaultData = {
+    password: "12046174",
+    firstName: "al",
+    lastName: "lad",
+    gender: "male",
+    email: "defualt@gmail.com",
+    contactNo: "0137495279",
+    dateOfBirth: "2024-1-27",
+    bloodGroup: "A+",
+    address: "Barishal",
+    // profileImg: pictureInfo?.secure_url || null,
+  };
+
   // const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
   //   //
   //   console.log("click");
@@ -115,15 +128,13 @@ const CreateAdminPage = () => {
         dateOfBirth: formValues.dateOfBirth,
         bloodGroup: formValues.bloodGroup,
         address: formValues.address,
-        profileImg: pictureInfo ? pictureInfo.secure_url : null,
+        profileImg: pictureInfo ? pictureInfo.secure_url : "",
       },
     };
 
     try {
       await addAdmin(adminData);
       message.success("Admin created successfully!");
-      console.log("Admin data =>", adminData);
-      console.log(adminData.admin.profileImg);
     } catch (error) {
       console.error("Error adding admin:", error);
       message.error("Failed to create admin. Please try again.");
@@ -151,7 +162,7 @@ const CreateAdminPage = () => {
           margin: "10px 30px",
         }}
       >
-        <DCForm onSubmit={onSubmit}>
+        <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
           <div
             style={{
               border: "1px solid #d9d9d9",
