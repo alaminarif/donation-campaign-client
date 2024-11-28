@@ -1,8 +1,8 @@
 "use client";
 import DCForm from "@/components/Form/DCForm";
-import FormDatePicker from "@/components/Form/FormDatePicker";
-import FormInput from "@/components/Form/FormInput";
-import FormSelectFiled from "@/components/Form/FormSelectFiled";
+import DCDatePicker from "@/components/Form/DCDatePicker";
+import DCInput from "@/components/Form/DCInput";
+import DCSelect from "@/components/Form/DCSelect";
 import FormTextArea from "@/components/Form/FormTextArea";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/global";
@@ -12,6 +12,7 @@ import { Button, Col, Form, Input, message, Row } from "antd";
 import { useState } from "react";
 import { useAddAdminMutation } from "@/redux/api/adminApi";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const CreateAdminPage = () => {
   const [imgFile, setImgFile] = useState<Blob | null>(null);
@@ -59,50 +60,16 @@ const CreateAdminPage = () => {
     gender: "male",
     email: "defualt@gmail.com",
     contactNo: "0137495279",
-    dateOfBirth: "2024-1-27",
+    // dateOfBirth: "2024-01-11",
     bloodGroup: "A+",
     address: "Barishal",
-    // profileImg: pictureInfo?.secure_url || null,
   };
 
-  // const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
-  //   //
-  //   console.log("click");
-
-  //   try {
-  //     let pictureInfo = null;
-
-  //     // Only upload the image if it exists
-  //     if (imgFile) {
-  //       pictureInfo = await uploadImage(imgFile);
-  //     }
-
-  //     const adminData = {
-  //       password: formValues.password,
-  //       admin: {
-  //         name: {
-  //           firstName: formValues.firstName,
-  //           lastName: formValues.lastName,
-  //         },
-  //         gender: formValues.gender,
-  //         email: formValues.email,
-  //         contactNo: formValues.contactNo,
-  //         dateOfBirth: formValues.dateOfBirth,
-  //         bloodGroup: formValues.bloodGroup,
-  //         address: formValues.address,
-  //         profileImg: pictureInfo?.secure_url || null,
-  //       },
-  //     };
-  //     // addAdmin(adminData);
-
-  //     console.log("admin data =>", adminData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
+    console.log("Submitted values:", formValues);
+
     console.log("click");
+    message.loading("Creating....");
     let pictureInfo = null;
 
     if (imgFile) {
@@ -162,7 +129,7 @@ const CreateAdminPage = () => {
           margin: "10px 30px",
         }}
       >
-        <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
+        <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData} resolver={zodResolver(adminSchema)}>
           <div
             style={{
               border: "1px solid #d9d9d9",
@@ -187,7 +154,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="firstName" size="large" label="First Name" />
+                <DCInput type="text" name="firstName" label="First Name" />
               </Col>
 
               <Col
@@ -197,7 +164,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="lastName" size="large" label="Last Name" />
+                <DCInput type="text" name="lastName" label="Last Name" />
               </Col>
 
               <Col
@@ -207,7 +174,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="password" name="password" size="large" label="Password" />
+                <DCInput type="password" name="password" label="Password" />
               </Col>
               <Col
                 className="gutter-row"
@@ -216,7 +183,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormSelectFiled name="gender" size="large" label="Gender" options={genderOptions} placeholder="Select" />
+                <DCSelect name="gender" label="Gender" options={genderOptions} />
               </Col>
               <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Controller
@@ -254,7 +221,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="email" size="large" label="Email" />
+                <DCInput type="text" name="email" label="Email" />
               </Col>
 
               <Col
@@ -264,7 +231,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput type="text" name="contactNo" size="large" label="Contact No" />
+                <DCInput type="text" name="contactNo" label="Contact No" />
               </Col>
 
               <Col
@@ -274,7 +241,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormDatePicker name="dateOfBirth" size="large" label="Date Of Birth" />
+                <DCDatePicker name="dateOfBirth" label="Date Of Birth" />
               </Col>
               <Col
                 className="gutter-row"
@@ -283,7 +250,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormSelectFiled name="bloodGroup" size="large" label="Boold Group" options={bloodGroupOptions} placeholder="Select" />
+                <DCSelect name="bloodGroup" label="Boold Group" options={bloodGroupOptions} />
               </Col>
               <Col
                 className="gutter-row"
@@ -292,7 +259,7 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormTextArea name="address" label="Address" />
+                <DCInput type="text" name="address" label="Address" />
               </Col>
             </Row>
           </div>
@@ -306,20 +273,3 @@ const CreateAdminPage = () => {
 export default CreateAdminPage;
 
 //  resolver={yupResolver(adminSchema)}
-
-// const defaultAdminData = {
-//   password: "1234567", // Ensure password is present
-//   admin: {
-//     name: {
-//       firstName: "arif",
-//       lastName: "rahman",
-//     },
-//     gender: "female",
-//     email: "arifurr342@gmail.com",
-//     contactNo: "0176586258695",
-//     dateOfBirth: "2024-11-21",
-//     bloodGroup: "A+",
-//     address: "Barisahl, Bangladesh",
-//     // profileImg: pictureInfo?.secure_url,
-//   },
-// };

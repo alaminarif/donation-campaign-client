@@ -5,11 +5,11 @@ import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
 import DCForm from "@/components/Form/DCForm";
 import { Button, Col, Form, Input, message, Row } from "antd";
-import FormInput from "@/components/Form/FormInput";
-import FormSelectFiled from "@/components/Form/FormSelectFiled";
+import DCInput from "@/components/Form/DCInput";
+import DCSelect from "@/components/Form/DCSelect";
 import { bloodGroupOptions, genderOptions } from "@/components/shared/constants/global";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
-import FormDatePicker from "@/components/Form/FormDatePicker";
+import DCDatePicker from "@/components/Form/DCDatePicker";
 import FormTextArea from "@/components/Form/FormTextArea";
 import { useGetSingleAdminQuery, useUpdateAdminMutation } from "@/redux/api/adminApi";
 import Loading from "@/app/loading";
@@ -83,7 +83,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (formValues) => {
-    console.log("click");
+    message.loading("Updating....");
     let pictureInfo = null;
 
     if (imgFile) {
@@ -114,12 +114,12 @@ const EditAdminPage = ({ params }: TIdProps) => {
 
     try {
       await updateAdmin({ id, body: adminData });
-      message.success("Admin created successfully!");
+      message.success("Admin updated successfully!");
       // console.log("Admin data =>", adminData);
       // console.log(adminData.admin.profileImg);
     } catch (error) {
-      console.error("Error adding admin:", error);
-      message.error("Failed to create admin. Please try again.");
+      console.error("Error updated admin:", error);
+      message.error("Failed to updated admin. Please try again.");
     }
   };
 
@@ -137,8 +137,9 @@ const EditAdminPage = ({ params }: TIdProps) => {
           },
         ]}
       />
+
       <Actionbar title="Update Admin "></Actionbar>
-      {/* defaultValues={adminDefaultData} */}
+
       <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
         <div
           style={{
@@ -164,7 +165,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormInput type="text" name="firstName" size="large" label="First Name" />
+              <DCInput type="text" name="firstName" label="First Name" />
             </Col>
 
             <Col
@@ -174,7 +175,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormInput type="text" name="lastName" size="large" label="Last Name" />
+              <DCInput type="text" name="lastName" label="Last Name" />
             </Col>
             <Col
               className="gutter-row"
@@ -183,7 +184,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormSelectFiled name="gender" size="large" label="Gender" options={genderOptions} placeholder="Select" />
+              <DCSelect name="gender" label="Gender" options={genderOptions} />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <Controller
@@ -221,7 +222,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormInput type="text" name="email" size="large" label="Email" />
+              <DCInput type="text" name="email" label="Email" />
             </Col>
 
             <Col
@@ -231,7 +232,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormInput type="text" name="contactNo" size="large" label="Contact No" />
+              <DCInput type="text" name="contactNo" label="Contact No" />
             </Col>
 
             <Col
@@ -241,7 +242,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormDatePicker name="dateOfBirth" size="large" label="Date Of Birth" />
+              <DCDatePicker name="dateOfBirth" label="Date Of Birth" />
             </Col>
             <Col
               className="gutter-row"
@@ -250,7 +251,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <FormSelectFiled name="bloodGroup" size="large" label="Boold Group" options={bloodGroupOptions} placeholder="Select" />
+              <DCSelect name="bloodGroup" label="Boold Group" options={bloodGroupOptions} />
             </Col>
             <Col
               className="gutter-row"

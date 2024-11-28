@@ -10,9 +10,9 @@ export type TAdmin = {
   name: TName;
   gender: string;
   contactNo: string;
-  bloodGroup?: string;
-  dateOfBirth?: string;
-  profileImg?: string | null;
+  bloodGroup: string;
+  dateOfBirth: string;
+  profileImg?: string;
   address: string;
   isDeleted: boolean;
   fullName: string;

@@ -16,11 +16,14 @@ type TFormProps = {
 const DCForm = ({ onSubmit, children, defaultValues, resolver }: TFormProps) => {
   const formConfig: TFormConfig = {};
 
-  if (resolver) {
-    formConfig["resolver"] = resolver;
-  }
+  // if (!!resolver) formConfig["resolver"] = resolver;
+
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
+  }
+
+  if (resolver) {
+    formConfig["resolver"] = resolver;
   }
   const methods = useForm(formConfig);
 

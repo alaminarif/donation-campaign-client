@@ -8,7 +8,7 @@ import * as yup from "yup";
 // import { z } from "zod";
 // import KeyIcon from "@mui/icons-material/Key";
 // import PHForm from "@/components/Forms/PHForm";
-// import PHInput from "@/components/Forms/PHInput";
+// import DCInput from "@/components/Forms/DCInput";
 // import { FieldValues } from "react-hook-form";
 // import { useForgotPasswordMutation } from "@/redux/api/authApi";
 // import { toast } from "sonner";

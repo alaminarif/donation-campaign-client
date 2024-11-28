@@ -3,7 +3,7 @@ import { Button, Col, message, Row } from "antd";
 import Image from "next/image";
 import loginImage from "@/assets/login-pana.png";
 import DCForm from "@/components/Form/DCForm";
-import FormInput from "@/components/Form/FormInput";
+import DCInput from "@/components/Form/DCInput";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { storeUserInfo } from "@/services/auth.service";
@@ -60,14 +60,14 @@ const LoginPage = () => {
         <div>
           <DCForm onSubmit={onSubmit} defaultValues={defaultValues}>
             <div>
-              <FormInput name="email" type="text" size="large" label="User Id" />
+              <DCInput name="email" type="text" size="large" label="User Id" />
             </div>
             <div
               style={{
                 margin: "15px 0px",
               }}
             >
-              <FormInput name="password" type="password" size="large" label="User Password" />
+              <DCInput name="password" type="password" size="large" label="User Password" />
             </div>
             <Button type="primary" htmlType="submit">
               Login
