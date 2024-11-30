@@ -8,16 +8,29 @@ type TInputProps = {
   name: string;
   label?: string;
   disabled?: boolean;
+  onChange?: (value: string) => void;
 };
 
-const DCInput = ({ type, name, label, disabled }: TInputProps) => {
+const DCInput = ({ type, name, label, disabled, onChange }: TInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
-            <Input {...field} type={type} id={name} size="large" disabled={disabled} />
+            <Input
+              {...field}
+              type={type}
+              id={name}
+              size="large"
+              disabled={disabled}
+              onChange={(e) => {
+                field.onChange(e); // Pass the event to react-hook-form's `onChange`
+                if (onChange) {
+                  onChange(e.target.value); // Trigger the custom onChange if provided
+                }
+              }}
+            />
             {error && <small style={{ color: "red" }}> {error.message}</small>}
           </Form.Item>
         )}

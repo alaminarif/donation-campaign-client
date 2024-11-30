@@ -19,32 +19,36 @@ const LoginPage = () => {
   const [userLogin] = useUserLoginMutation();
   const router = useRouter();
 
-  const [inputType, setInputType] = useState<"email" | "userId">("userId");
+  const [inputType, setInputType] = useState<"email" | "id">("id");
 
   const defaultValues = {
     // email: "arifurr231@gmail.com",
     // password: "super_admin",
   };
-
   const handleInputChange = (value: string) => {
     // Update the inputType based on the input value
     console.log(value);
     if (value.includes("@")) {
       setInputType("email");
     } else {
-      setInputType("userId");
+      setInputType("id");
     }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //
 
-    console.log(data);
+    const payload = {
+      [inputType]: data.dynamicInput, // Assign the input value to the correct key
+      password: data.password, // Include password
+    };
+
+    console.log("Submitted Payload:", payload);
+
+    // console.log(data);
 
     try {
-      const res = " ";
-
-      // await userLogin({ ...data }).unwrap();
+      const res = await userLogin(payload).unwrap();
 
       if (res?.accessToken) {
         router.push("/profile");
@@ -56,6 +60,7 @@ const LoginPage = () => {
       console.error("error =>", error);
     }
   };
+
   return (
     <Row
       justify="center"
@@ -78,13 +83,7 @@ const LoginPage = () => {
         <div>
           <DCForm onSubmit={onSubmit}>
             <div>
-              <DCInput
-                name={inputType === "email" ? "email" : "userId"}
-                type="text"
-                size="large"
-                label={inputType === "email" ? "Email Address" : "User ID"}
-                onChange={(e: any) => handleInputChange(e.target.value)}
-              />
+              <DCInput name="dynamicInput" type="text" size="large" label="Enter Email or User ID" onChange={(value) => handleInputChange(value)} />
             </div>
 
             <div
@@ -92,7 +91,7 @@ const LoginPage = () => {
                 margin: "15px 0px",
               }}
             >
-              {/* <DCInput name="password" type="password" size="large" label="User Password" /> */}
+              <DCInput name="password" type="password" size="large" label="User Password" />
             </div>
             <Button type="primary" htmlType="submit">
               Login
