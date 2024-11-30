@@ -39,14 +39,14 @@ const EditAdminPage = ({ params }: TIdProps) => {
   }
 
   const adminDefaultData = {
-    firstName: adminData[0].name.firstName || "",
-    lastName: adminData[0].name.lastName || "",
-    gender: adminData[0].gender || "",
-    email: adminData[0].email || "",
-    contactNo: adminData[0].contactNo || "",
-    dateOfBirth: adminData[0].dateOfBirth || "",
-    bloodGroup: adminData[0].bloodGroup || "",
-    address: adminData[0].address || "",
+    firstName: adminData[0]?.name?.firstName || "",
+    lastName: adminData[0]?.name?.lastName || "",
+    gender: adminData[0]?.gender || "",
+    email: adminData[0]?.email || "",
+    contactNo: adminData[0]?.contactNo || "",
+    // dateOfBirth: adminData[0]?.dateOfBirth || "",
+    bloodGroup: adminData[0]?.bloodGroup || "",
+    address: adminData[0]?.address || "",
     // profileImg: pictureInfo?.secure_url || null,
   };
 

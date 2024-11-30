@@ -102,9 +102,9 @@ const CreateAdminPage = () => {
     try {
       await addAdmin(adminData);
       message.success("Admin created successfully!");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding admin:", error);
-      message.error("Failed to create admin. Please try again.");
+      message.error(error.message);
     }
   };
 

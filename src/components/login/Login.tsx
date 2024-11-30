@@ -1,5 +1,5 @@
 "use client";
-import { Button, Col, message, Row } from "antd";
+import { Button, Col, Input, message, Row } from "antd";
 import Image from "next/image";
 import loginImage from "@/assets/login-pana.png";
 import DCForm from "@/components/Form/DCForm";
@@ -8,6 +8,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { storeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 // type TFormValues = {
 //   email: string;
@@ -18,15 +19,32 @@ const LoginPage = () => {
   const [userLogin] = useUserLoginMutation();
   const router = useRouter();
 
+  const [inputType, setInputType] = useState<"email" | "userId">("userId");
+
   const defaultValues = {
-    email: "arifurr231@gmail.com",
-    password: "super_admin",
+    // email: "arifurr231@gmail.com",
+    // password: "super_admin",
   };
+
+  const handleInputChange = (value: string) => {
+    // Update the inputType based on the input value
+    console.log(value);
+    if (value.includes("@")) {
+      setInputType("email");
+    } else {
+      setInputType("userId");
+    }
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     //
 
+    console.log(data);
+
     try {
-      const res = await userLogin({ ...data }).unwrap();
+      const res = " ";
+
+      // await userLogin({ ...data }).unwrap();
 
       if (res?.accessToken) {
         router.push("/profile");
@@ -58,16 +76,23 @@ const LoginPage = () => {
           First login your account
         </h1>
         <div>
-          <DCForm onSubmit={onSubmit} defaultValues={defaultValues}>
+          <DCForm onSubmit={onSubmit}>
             <div>
-              <DCInput name="email" type="text" size="large" label="User Id" />
+              <DCInput
+                name={inputType === "email" ? "email" : "userId"}
+                type="text"
+                size="large"
+                label={inputType === "email" ? "Email Address" : "User ID"}
+                onChange={(e: any) => handleInputChange(e.target.value)}
+              />
             </div>
+
             <div
               style={{
                 margin: "15px 0px",
               }}
             >
-              <DCInput name="password" type="password" size="large" label="User Password" />
+              {/* <DCInput name="password" type="password" size="large" label="User Password" /> */}
             </div>
             <Button type="primary" htmlType="submit">
               Login

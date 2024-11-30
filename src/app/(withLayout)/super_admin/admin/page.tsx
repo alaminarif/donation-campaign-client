@@ -4,10 +4,10 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Actionbar from "@/components/ui/Actionbar";
 import DCBreadcrumb from "@/components/ui/DCBreadcrumb";
-import { useGetAllAdminsQuery } from "@/redux/api/adminApi";
+import { useDeleteAdminMutation, useGetAllAdminsQuery } from "@/redux/api/adminApi";
 import { TAdmin, TQueryParam } from "@/types";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Input, Pagination, Table, TableColumnsType, TableProps } from "antd";
+import { Button, Input, message, Pagination, Table, TableColumnsType, TableProps } from "antd";
 import Loading from "@/app/loading";
 import dayjs from "dayjs";
 
@@ -42,6 +42,8 @@ const Adminpage = () => {
     isFetching,
   } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
 
+  const [deleteAdmin] = useDeleteAdminMutation();
+
   if (isLoading) {
     return <Loading />;
   }
@@ -49,6 +51,14 @@ const Adminpage = () => {
   const admins = Array.isArray(adminData?.data) ? adminData.data : [];
   const meta = adminData?.meta;
 
+  const deleteHandler = async (id: string) => {
+    message.loading("Deleting...");
+    try {
+      await deleteAdmin(id);
+    } catch (error: any) {
+      message.error(error.message);
+    }
+  };
   const tableData = admins?.map(({ _id, fullName, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
     key: _id,
     fullName,
@@ -128,7 +138,7 @@ const Adminpage = () => {
               </Button>
             </Link>
 
-            <Button onClick={() => console.log(data)} type="primary" danger>
+            <Button onClick={() => deleteHandler(data?.email)} type="primary" danger>
               <DeleteOutlined />
             </Button>
           </>

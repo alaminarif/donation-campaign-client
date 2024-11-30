@@ -18,7 +18,7 @@ const DCInput = ({ type, name, label, disabled }: TInputProps) => {
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <Input {...field} type={type} id={name} size="large" disabled={disabled} />
-            {/* {error && <small style={{ color: "red" }}> {"error"}</small>} */}
+            {error && <small style={{ color: "red" }}> {error.message}</small>}
           </Form.Item>
         )}
       />
