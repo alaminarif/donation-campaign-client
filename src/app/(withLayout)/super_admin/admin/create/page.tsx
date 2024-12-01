@@ -60,7 +60,7 @@ const CreateAdminPage = () => {
     gender: "male",
     email: "defualt@gmail.com",
     contactNo: "0137495279",
-    // dateOfBirth: "2024-01-11",
+    dateOfBirth: "2024-01-11",
     bloodGroup: "A+",
     address: "Barishal",
   };

@@ -25,9 +25,9 @@ const DCInput = ({ type, name, label, disabled, onChange }: TInputProps) => {
               size="large"
               disabled={disabled}
               onChange={(e) => {
-                field.onChange(e); // Pass the event to react-hook-form's `onChange`
+                field.onChange(e);
                 if (onChange) {
-                  onChange(e.target.value); // Trigger the custom onChange if provided
+                  onChange(e.target.value);
                 }
               }}
             />

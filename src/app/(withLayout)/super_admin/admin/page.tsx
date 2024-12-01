@@ -11,7 +11,7 @@ import { Button, Input, message, Pagination, Table, TableColumnsType, TableProps
 import Loading from "@/app/loading";
 import dayjs from "dayjs";
 
-export type TTbaleData = Pick<TAdmin, "fullName" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
+export type TTbaleData = Pick<TAdmin, "id" | "fullName" | "email" | "contactNo" | "dateOfBirth" | "bloodGroup" | "gender">;
 
 const Adminpage = () => {
   const [params, setParams] = useState<TQueryParam[]>([]);
@@ -36,11 +36,7 @@ const Adminpage = () => {
     setParams(updatedParams);
   }, [debouncedSearchTerm]);
 
-  const {
-    data: adminData,
-    isLoading,
-    isFetching,
-  } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "email" }, ...params]);
+  const { data: adminData, isLoading, isFetching } = useGetAllAdminsQuery([{ name: "page", value: page }, { name: "sort", value: "id" }, ...params]);
 
   const [deleteAdmin] = useDeleteAdminMutation();
 
@@ -59,10 +55,11 @@ const Adminpage = () => {
       message.error(error.message);
     }
   };
-  const tableData = admins?.map(({ _id, fullName, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
+  const tableData = admins?.map(({ _id, id, fullName, email, contactNo, dateOfBirth, gender, bloodGroup }) => ({
     key: _id,
     fullName,
     email,
+    id,
     contactNo,
     dateOfBirth,
     gender,
@@ -126,19 +123,19 @@ const Adminpage = () => {
               <EyeOutlined />
             </Button>
 
-            <Link href={`/super_admin/admin/edit/${data?.email}`}>
+            <Link href={`/super_admin/admin/edit/${data?.key}`}>
               <Button
                 style={{
                   margin: "0 5px",
                 }}
-                onClick={() => console.log(data.email)}
+                // onClick={() => console.log(data)}
                 type="primary"
               >
                 <EditOutlined />
               </Button>
             </Link>
 
-            <Button onClick={() => deleteHandler(data?.email)} type="primary" danger>
+            <Button onClick={() => deleteHandler(data?.id)} type="primary" danger>
               <DeleteOutlined />
             </Button>
           </>

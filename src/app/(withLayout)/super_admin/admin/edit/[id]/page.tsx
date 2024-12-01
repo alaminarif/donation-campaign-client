@@ -13,13 +13,15 @@ import DCDatePicker from "@/components/Form/DCDatePicker";
 import FormTextArea from "@/components/Form/FormTextArea";
 import { useGetSingleAdminQuery, useUpdateAdminMutation } from "@/redux/api/adminApi";
 import Loading from "@/app/loading";
+import dayjs from "dayjs";
+
 type TIdProps = {
   params: any;
 };
 
 const EditAdminPage = ({ params }: TIdProps) => {
   const { id } = params;
-  // console.log("params", params, email);
+  console.log("params", params, id);
 
   const [imgFile, setImgFile] = useState<Blob | null>(null);
 
@@ -39,18 +41,18 @@ const EditAdminPage = ({ params }: TIdProps) => {
   }
 
   const adminDefaultData = {
-    firstName: adminData[0]?.name?.firstName || "",
-    lastName: adminData[0]?.name?.lastName || "",
-    gender: adminData[0]?.gender || "",
-    email: adminData[0]?.email || "",
-    contactNo: adminData[0]?.contactNo || "",
-    // dateOfBirth: adminData[0]?.dateOfBirth || "",
-    bloodGroup: adminData[0]?.bloodGroup || "",
-    address: adminData[0]?.address || "",
+    firstName: adminData?.name?.firstName || "",
+    lastName: adminData?.name?.lastName || "",
+    gender: adminData?.gender || "",
+    email: adminData?.email || "",
+    contactNo: adminData?.contactNo || "",
+    dateOfBirth: adminData?.dateOfBirth ? dayjs(adminData.dateOfBirth) : null,
+    bloodGroup: adminData?.bloodGroup || "",
+    address: adminData?.address || "",
     // profileImg: pictureInfo?.secure_url || null,
   };
 
-  // console.log(adminDefaultData);
+  console.log("adminDefaultData => ", adminDefaultData.dateOfBirth);
 
   const uploadImage = async (file: Blob) => {
     if (!file) {
@@ -196,8 +198,8 @@ const EditAdminPage = ({ params }: TIdProps) => {
                       {...field}
                       onChange={(e) => {
                         const file = e.target.files?.[0] || null;
-                        onChange(file); // For React Hook Form
-                        setImgFile(file); // For uploading
+                        onChange(file);
+                        setImgFile(file);
                       }}
                     />
                   </Form.Item>
@@ -222,7 +224,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
                 marginBottom: "10px",
               }}
             >
-              <DCInput type="text" name="email" label="Email" />
+              <DCInput type="text" name="email" label="Email" disabled={true} />
             </Col>
 
             <Col
