@@ -119,9 +119,13 @@ const Adminpage = () => {
       render: function (data: any) {
         return (
           <>
-            <Button onClick={() => console.log(data)} type="primary">
+            <Link href={`/super_admin/admin/details/${data?.key}`}>
+            <Button 
+            // onClick={() => console.log(data)}
+             type="primary">
               <EyeOutlined />
             </Button>
+            </Link>
 
             <Link href={`/super_admin/admin/edit/${data?.key}`}>
               <Button

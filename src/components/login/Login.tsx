@@ -23,7 +23,7 @@ const LoginPage = () => {
 
   const defaultValues = {
     // email: "arifurr231@gmail.com",
-    // password: "super_admin",
+    password: "super_admin",
   };
   const handleInputChange = (value: string) => {
     // Update the inputType based on the input value
@@ -39,7 +39,7 @@ const LoginPage = () => {
     //
 
     const payload = {
-      [inputType]: data.dynamicInput, // Assign the input value to the correct key
+      [inputType]: data.dynamicInput,
       password: data.password, // Include password
     };
 
@@ -81,9 +81,9 @@ const LoginPage = () => {
           First login your account
         </h1>
         <div>
-          <DCForm onSubmit={onSubmit}>
+          <DCForm onSubmit={onSubmit} defaultValues={defaultValues}>
             <div>
-              <DCInput name="dynamicInput" type="text" size="large" label="Enter Email or User ID" onChange={(value) => handleInputChange(value)} />
+              <DCInput name="dynamicInput" type="text" label="Enter Email or User ID" onChange={(value) => handleInputChange(value)} />
             </div>
 
             <div
@@ -91,7 +91,7 @@ const LoginPage = () => {
                 margin: "15px 0px",
               }}
             >
-              <DCInput name="password" type="password" size="large" label="User Password" />
+              <DCInput name="password" type="password" label="User Password" />
             </div>
             <Button type="primary" htmlType="submit">
               Login

@@ -14,6 +14,7 @@ import FormTextArea from "@/components/Form/FormTextArea";
 import { useGetSingleAdminQuery, useUpdateAdminMutation } from "@/redux/api/adminApi";
 import Loading from "@/app/loading";
 import dayjs from "dayjs";
+import Image from "next/image";
 
 type TIdProps = {
   params: any;
@@ -33,12 +34,12 @@ const EditAdminPage = ({ params }: TIdProps) => {
     return <Loading />;
   }
 
-  console.log("updat amin data query =>", adminData);
-  console.log(data);
-
   if (error) {
     console.error("Error adding admin =>", error);
   }
+
+  console.log("updat amin data query =>", adminData);
+  console.log(adminData.id);
 
   const adminDefaultData = {
     firstName: adminData?.name?.firstName || "",
@@ -141,6 +142,8 @@ const EditAdminPage = ({ params }: TIdProps) => {
       />
 
       <Actionbar title="Update Admin "></Actionbar>
+
+      {/* <Image src={adminData} height={300} width={300} alt="image" /> */}
 
       <DCForm onSubmit={onSubmit} defaultValues={adminDefaultData}>
         <div
@@ -266,7 +269,7 @@ const EditAdminPage = ({ params }: TIdProps) => {
             </Col>
           </Row>
         </div>
-        <Button htmlType="submit">Create</Button>
+        <Button htmlType="submit">Update</Button>
       </DCForm>
     </div>
   );

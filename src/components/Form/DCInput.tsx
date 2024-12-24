@@ -22,7 +22,6 @@ const DCInput = ({ type, name, label, disabled, onChange }: TInputProps) => {
               {...field}
               type={type}
               id={name}
-              size="large"
               disabled={disabled}
               onChange={(e) => {
                 field.onChange(e);
